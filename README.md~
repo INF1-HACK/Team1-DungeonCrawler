@@ -8,25 +8,20 @@ To compile all the .java files from one folder and transfer the .class files to 
 Format:
 
 > ...: javac <name of folder with .java files>/*.java -d <target folder for .class files>/
-> ...:
 
 Example:
 
 > ...: javac src/*.java -d bin/
-> ...:
 
 To run the programs directly from the Team1 folder you can use this style:
 
 Format:
 
 > ...: java -cp <folder with the .class files you want to access> <name of class> <optional: additional command-line arguments>
-> ...:
 
 Example:
 
 > ...: java -cp bin HelloWorld
-> Hello World
-> ...:
 
 An optional thing Daniel proposed we look over is a markdown tutorial for github (found on google). It may prove helpful in making text easier to read (though I'm not acquainted with it yet so I can't tell much about it).
 
