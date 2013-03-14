@@ -1,3 +1,5 @@
+//package com.boredInteractive.humdrum;
+
 import java.awt.Image;
 import java.util.LinkedList;
 
@@ -35,13 +37,35 @@ public class Level {
 
 		for (int c = 0; c < totalWidth; c++) {
 			for (int r = 0; r < totalHeight; r++) {
-				temp.add(new Tile(imageName(colomb, row)));
+				temp.add(new Tile(imageName(colomb, row), true));
 				row *= -1;
 			}
 			tiles.add(temp);
 			temp = new LinkedList<Tile>();;
 			colomb *= -1;
 		}
+		
+		//temp values to make a wall
+		for (int i = 0; i < totalWidth; i++) {
+			tiles.get(i).get(0).setPassable(false);
+			tiles.get(i).get(0).setImage("wallTop");
+			tiles.get(i).get(1).setPassable(false);
+			tiles.get(i).get(1).setImage("wallBottom");
+			tiles.get(i).get(totalHeight-1).setPassable(false);
+			tiles.get(i).get(totalHeight-1).setImage("wallBehind");
+		}
+		for (int i = 0; i < totalHeight; i++) {
+			tiles.get(0).get(i).setPassable(false);
+			tiles.get(0).get(i).setImage("wallEastFaceing");
+			tiles.get(totalWidth-1).get(i).setPassable(false);
+			tiles.get(totalWidth-1).get(i).setImage("wallWestFaceing");
+		}
+		tiles.get(0).get(1).setImage("wallSouthAndWestFacing");
+		tiles.get(this.totalWidth-1).get(1).setImage("wallSouthAndEastFacing");
+		tiles.get(0).get(0).setImage("wallTop");
+		tiles.get(totalWidth-1).get(0).setImage("wallTop");
+		tiles.get(0).get(totalHeight-1).setImage("wallBehind");
+		tiles.get(totalWidth-1).get(totalHeight-1).setImage("wallBehind");
 	}
 
 	//temp function for checkering level
@@ -67,4 +91,7 @@ public class Level {
 		}
 		return visible;
 	}
+	
+	public boolean getTilePassable (int x, int y){return tiles.get(x).get(y).getPassable();}
+	
 }

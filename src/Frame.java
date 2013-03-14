@@ -1,53 +1,140 @@
+//package com.boredInteractive.humdrum;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import javax.swing.JFrame;
-
-@SuppressWarnings("serial")
-public class Frame extends JFrame implements KeyListener{
-
+public class Frame extends JFrame implements KeyListener
+{
+	private final int startingWidth  = 850;
+	private final int startingHeight = 600;
+	private static final long serialVersionUID = 1L;
 	private Model model;
-
-	public Frame(Model model){
-		this.model = model;
-
-		View view = new View(this.model);
-		this.getContentPane().add(view);
-
+	
+	private boolean upPressed = false;
+	private boolean downPressed = false;
+	private boolean leftPressed = false;
+	private boolean rightPressed = false;
+	private boolean escapePressed = false;
+	private boolean pausePressed = false;
+	
+	public Frame(Model input_model, View input_view)
+	{
+		model = input_model;
+		this.setTitle("Boring, Dull, Mundane: Humdrum.");
+		setIconImage(new ImageIcon("logo.png").getImage());
+		this.setSize(startingWidth, startingHeight);
+		this.setLocationRelativeTo(null);
+		this.add(input_view);
+		this.addKeyListener(this);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(500, 500);
-		this.setTitle("Dungeon Crawler");
-		addKeyListener(this);
-
 		this.setVisible(true);
 	}
-
-	public void keyPressed(KeyEvent e) {
-		System.err.println("Something was pressed.");
-		if (e.getKeyChar() == 'w') {
-			System.out.println(e.getKeyChar() + " was pressed");
-			model.setPlayerUp(true);
-		}
-		else if (e.getKeyChar() == 's') {
-			System.out.println(e.getKeyChar() + " was pressed");
-			model.setPlayerDown(true);
-		}
-		else if (e.getKeyChar() == 'a') {
-			System.out.println(e.getKeyChar() + " was pressed");
-			model.setPlayerLeft(true);
-		}
-		else if (e.getKeyChar() == 'd') {
-			System.out.println(e.getKeyChar() + " was pressed");
-			model.setPlayerRight(true);
+	@Override
+	public void keyPressed(KeyEvent k) 
+	{
+		switch (k.getKeyCode())
+		{
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
+				if (!upPressed)
+				{
+					upPressed = true;
+					model.upPressed();
+				}
+				break;
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
+				if (!downPressed)
+				{
+					downPressed = true;
+					model.downPressed();
+				}
+				break;
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
+				if (!leftPressed)
+				{
+					leftPressed = true;
+					model.leftPressed();
+				}
+				break;
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
+				if (!rightPressed)
+				{
+					rightPressed = true;
+					model.rightPressed();
+				}
+				break;
+			case KeyEvent.VK_ESCAPE:
+				if (!escapePressed)
+				{
+					escapePressed = true;
+					model.close();
+				}
+				break;
+			case KeyEvent.VK_P:
+				if (!pausePressed)
+				{
+					pausePressed = true;
+					model.pPressed();
+				}	
+				break;
 		}
 	}
-
-	public void keyReleased(KeyEvent e) {
-		if (e.getKeyChar() == 'w') {model.setPlayerUp(false);}
-		else if (e.getKeyChar() == 's') {model.setPlayerDown(false);}
-		else if (e.getKeyChar() == 'a') {model.setPlayerLeft(false);}
-		else if (e.getKeyChar() == 'd') {model.setPlayerRight(false);}
+	@Override
+	public void keyReleased(KeyEvent k) 
+	{
+		switch (k.getKeyCode())
+		{
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
+				if (upPressed)
+				{
+					upPressed = false;
+					model.upReleased();
+				}
+				break;
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
+				if (downPressed)
+				{
+					downPressed = false;
+					model.downReleased();
+				}
+				break;
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
+				if (leftPressed)
+				{
+					leftPressed = false;
+					model.leftReleased();
+				}
+				break;
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
+				if (rightPressed)
+				{
+					rightPressed = false;
+					model.rightReleased();
+				}
+				break;
+			case KeyEvent.VK_ESCAPE:
+				if (escapePressed)
+				{
+					escapePressed = false;
+				}
+				break;
+			case KeyEvent.VK_P:
+				if (pausePressed)
+				{
+					pausePressed = false;
+				}	
+				break;
+		}
 	}
-
-	public void keyTyped(KeyEvent arg0) {}
+	@Override
+	public void keyTyped(KeyEvent k) 
+	{
+	}
 }

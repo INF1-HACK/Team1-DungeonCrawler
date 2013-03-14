@@ -1,40 +1,98 @@
+//package com.boredInteractive.humdrum;
 import java.awt.Image;
-
-public class Model {
-	
+public class Model
+{
+	private final int rows = 20;
+	private final int columns = 30;
 	private Level level;
-	/*player should be a Player not a Sprite
-	  Player should be a child of Sprite 
-	  I, Sam, have hashed this as it wasn't important
-	  to what i was doing, feel free to fix this :)*/
-	private Sprite player;
-	
-	public Model() {
-		this.level = new Level(this, 20, 30);
-		this.player = new Sprite(1,2,"player");
-		@SuppressWarnings("unused")
-		Frame frame = new Frame(this);
-		
-		new Thread(player).start();
+	private Player player;
+	private Frame frame;
+	private View view;
+	private boolean paused;
+	public Model()
+	{
+		level = new Level(this, rows, columns);
+		view = new View(this);
+		frame = new Frame(this, view);
+		player = new Player(this, "player", 2, 3);
+		player.run();
+		paused = false;
 	}
-	
-	public Image[][] getLevelVisibleTiles(){
+	public Image[][] getLevelVisibleTiles()
+	{
 		return level.getVisibleTiles();
 	}
-	
-	public double getPlayerX(){return player.getX();}
-	
-	public double getPlayerY(){return player.getY();}
-	
-	public Image getPlayerImage() {return player.getImage();}
-	
-	public void setPlayerUp(boolean up){player.setUp(up);}
-	public void setPlayerDown(boolean down){player.setDown(down);}
-	public void setPlayerLeft(boolean left){player.setLeft(left);}
-	public void setPlayerRight(boolean right){player.setRight(right);}
-	
-	public static void main(String[] args) {
+	public double getPlayerX()
+	{
+		return player.getX();
+	}
+	public double getPlayerY()
+	{
+		return player.getY();
+	}
+	public Image getPlayerImage()
+	{
+		return player.getImage();
+	}
+	public boolean getLevelTilePassable(int x, int y)
+	{
+		return level.getTilePassable(x, y);
+	}
+	public void upPressed()
+	{
+		player.startMovingUp();
+	}
+	public void downPressed()
+	{
+		player.startMovingDown();
+	}
+	public void leftPressed()
+	{
+		player.startMovingLeft();
+	}
+	public void rightPressed()
+	{
+		player.startMovingRight();
+	}
+	public void upReleased()
+	{
+		player.stopMovingUp();
+	}
+	public void downReleased()
+	{
+		player.stopMovingDown();
+	}
+	public void leftReleased()
+	{
+		player.stopMovingLeft();
+	}
+	public void rightReleased()
+	{
+		player.stopMovingRight();
+	}
+	public void pPressed()
+	{
+		if (!paused)
+		{
+			player.pause();
+			view.pause();
+			paused = false;
+		}
+		else
+		{
+			player.unpause();
+			view.unpause();
+			paused = true;
+		}
+	}
+	public void close()
+	{
+		player.stopRunning();
+		frame.dispose();
+	}
+	public static void main(String[] args)
+	{
 		@SuppressWarnings("unused")
-		Model model = new Model();
+		Model m = new Model();
 	}
 }
