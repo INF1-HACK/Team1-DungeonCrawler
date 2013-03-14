@@ -1,4 +1,3 @@
-//package com.boredInteractive.humdrum;
 import java.awt.Image;
 public class Model
 {
