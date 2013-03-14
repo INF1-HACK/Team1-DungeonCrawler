@@ -1,4 +1,3 @@
-//package com.boredInteractive.humdrum;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
@@ -20,7 +19,7 @@ public class Frame extends JFrame implements KeyListener
 	public Frame(Model input_model, View input_view)
 	{
 		model = input_model;
-		this.setTitle("Boring, Dull, Mundane: Humdrum.");
+		this.setTitle("Dungeon Crawler");
 		setIconImage(new ImageIcon("logo.png").getImage());
 		this.setSize(startingWidth, startingHeight);
 		this.setLocationRelativeTo(null);
