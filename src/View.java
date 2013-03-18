@@ -1,4 +1,3 @@
-//package com.boredInteractive.humdrum;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
