@@ -1,5 +1,3 @@
-//package com.boredInteractive.humdrum;
-
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
