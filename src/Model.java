@@ -1,8 +1,6 @@
 import java.awt.Image;
 public class Model
 {
-	private final int rows = 20;
-	private final int columns = 30;
 	private Level level;
 	private Player player;
 	private Frame frame;
@@ -10,11 +8,12 @@ public class Model
 	private boolean paused;
 	public Model()
 	{
-		level = new Level(this, rows, columns);
+		level = new Level(this);
 		view = new View(this);
 		frame = new Frame(this, view);
-		player = new Player(this, "player", 2, 3);
-		player.run();
+		player = new Player(this, "player", 3, 4);
+		player.startThread();
+		level.startThread();
 		paused = false;
 	}
 	public Image[][] getLevelVisibleTiles()
