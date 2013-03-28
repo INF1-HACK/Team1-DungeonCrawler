@@ -1,3 +1,5 @@
+import java.awt.Image;
+
 public class Player extends Sprite implements Runnable
 {
 	private final double speed = 0.3;
@@ -20,6 +22,7 @@ public class Player extends Sprite implements Runnable
 	@Override
 	public void run()
 	{
+		Image image = this.getImage();
 		while (running)
 		{
 			if (!paused)
