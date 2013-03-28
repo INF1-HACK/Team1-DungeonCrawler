@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE restaurants [
+<!ELEMENT restaurants (restaurant*)>
+<!ELEMENT restaurant (address, cuisine, phoneno)>
+<!ELEMENT address (#PCDATA)>
+<!ELEMENT cuisine (#PCDATA)>
+<!ELEMENT phoneno (#PCDATA)>
+<!ATTLIST restaurant name CDATA #REQUIRED>
+]>
+<restaurants>
+	<restaurant name="Double Dutch">
+		<address>27 Marshall Street, Edinburgh, EH8 9BJ</address>
+		<cuisine>Mediterranean</cuisine>
+		<phoneno>07736836165</phoneno>
+	</restaurant>
+	<restaurant name="Koi">
+		<address>26 Potterow, Edinburgh, EH8 9BT</address>
+		<cuisine>Japanese</cuisine>
+		<phoneno>01316672299</phoneno>
+	</restaurant>
+	<restaurant name="Kebab Mahal">
+		<address>7 Nicolson Square, Edinburgh, EH8 9BH</address>
+		<cuisine>Indian</cuisine>
+		<phoneno>01316227228</phoneno> 
+	</restaurant>
+	<restaurant name="Pink Olive">
+		<address>55 West Nicolson Street, Edinburgh, EH8 9DB</address>
+		<cuisine>Scottish</cuisine>
+		<phoneno>01316624493</phoneno>
+	</restaurant>
+	<restaurant name="Buffalo Grill">
+		<address>12 Chapel Street, Edinburgh, EH8 9AY</address>
+		<cuisine>North American</cuisine>
+		<phoneno>01316677427</phoneno>
+	</restaurant>
+	<restaurant name="Nile Valley">
+		<address>6 Chapel Street, Edinburgh, EH8 9AY</address>
+		<cuisine>Cafe</cuisine>
+		<phoneno>01316678200</phoneno>
+	</restaurant>
+	<restaurant name="Kalpna">
+		<address>2 St Patrick's Square, Edinburgh, EH8 9EZ</address>
+		<cuisine>Indian</cuisine>
+		<phoneno>01316679890</phoneno>
+	</restaurant>
+	<restaurant name="Suruchi">
+		<address>14A Nicholson Street</address>
+		<cuisine>Indian</cuisine>
+		<phoneno>01315566583</phoneno>
+	</restaurant>
+	<restaurant name="Ciao Roma">
+		<address>64 South Bridge</address>
+		<cuisine>Italian</cuisine>
+		<phoneno>01315573777</phoneno>
+	</restaurant>
+	<restaurant name="Ti Amo">
+		<address>16 Nicolson Street, Old Town, Edinburgh, EH8 9DH</address>
+		<cuisine>Italian</cuisine>
+		<phoneno>01315565678</phoneno>
+	</restaurant>
+</restaurants>
+
