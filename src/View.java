@@ -1,16 +1,20 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import javax.swing.JPanel;
 public class View extends JPanel
 {
+	private final int visibleWidth = 20;
+	private final int visibleHeight = 10;
 	private static final long serialVersionUID = 1L;
-	private boolean paused = false;
 	private Model model;
-	public View(Model model)
+	private double xPosition = 0;
+	private double yPosition = 0;
+	private boolean paused = false;
+	private boolean god = false;
+	public View(Model input_model)
 	{
-		this.model = model;
-		this.setBackground(Color.blue);
+		model = input_model;
+		this.setBackground(new Color(50, 0, 50));
 	}
 	@Override
 	public void paintComponent(Graphics g)
@@ -18,82 +22,77 @@ public class View extends JPanel
 		super.paintComponent(g);
 		if (!paused)
 		{
-			drawTiles(g);
-			drawPlayer(g);
-			drawBorder(g);
-			repaint();
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			SetPosition();
+			int s = scale();
+			drawTiles(g, s);
+			drawPlayer(g, s);
 		}
 		else
 		{
-			g.drawRect(0, 0, WIDTH, HEIGHT);
+			g.setColor(new Color(50, 0, 50));
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		}
+		repaint();
 	}
-	private void drawBorder(Graphics g)
+	private void SetPosition()
 	{
-		Image[][] images = model.getLevelVisibleTiles();
-		//player is 1 tile wide and 2 tiles tall
-		int s = size(images.length, images[0].length);
-		int x1 = ((this.getWidth() / 2) - (images.length * s) / 2);
-		int y1 = ((this.getHeight() / 2) - (images[0].length * s) / 2);
-		int x2 = (x1 + images.length * s);
-		int y2 = (y1 + images[0].length * s);
-		g.setColor(Color.blue);
-		g.fillRect(0, 0, this.getWidth(), y1);
-		g.fillRect(0, 0, x1, this.getHeight());
-		g.fillRect(0, y2 - s, this.getWidth(), this.getHeight() - y2 + s);
-		g.fillRect(x2 - s, 0, this.getWidth() - x2 + s, this.getHeight());
+		xPosition = model.getPlayerX() - (visibleWidth / 2);
+		yPosition = model.getPlayerY() - (visibleHeight / 2);
 	}
-	private void drawPlayer(Graphics g)
+	private void drawTiles(Graphics g, int s)
 	{
-		Image[][] images = model.getLevelVisibleTiles();
-		//player is 1 tile wide and 2 tiles tall
-		int s = size(images.length, images[0].length);
-		g.drawImage(model.getPlayerImage(), (int) (this.getWidth() / 2),
-				(int) (this.getHeight() / 2), s, 2 * s, null);
-	}
-	private void drawTiles(Graphics g)
-	{
-		Image[][] images = model.getLevelVisibleTiles();
-		//size of tile;
-		int s = size(images.length, images[0].length);
-		//off set
-		int dx = (int) ((model.getPlayerX() % 1) * s);
-		int dy = (int) ((model.getPlayerY() % 1) * s);
-		for (int c = 0; c < images.length; c++)
+		for (int i = -1; i < visibleWidth + 1; i++)
 		{
-			for (int r = 0; r < images[0].length; r++)
+			int x = (int) (((int) xPosition + i - xPosition) * s);
+			for (int j = -1; j < visibleHeight + 1; j++)
 			{
-				int x = ((this.getWidth() / 2) - (images.length * s) / 2)
-						+ (c * s) - dx;
-				int y = ((this.getHeight() / 2) - (images[0].length * s) / 2)
-						+ (r * s) - dy;
-				if (images[c][r] != null)
+				int y = (int) (((int) yPosition + j - yPosition) * s);
+				if (model.getTileImage((int) xPosition + i, (int) yPosition + j) != null)
 				{
-					g.drawImage(images[c][r], x, y, s, s, null);
+					g.drawImage(model.getTileImage((int) xPosition + i, (int) yPosition + j), x, y, s, s, null);
 				}
 				else
 				{
+					g.setColor(new Color(255, 255, 255));
 					g.fillRect(x, y, s, s);
+				}
+				if (god)
+				{
+					if (model.getTilePassable((int) xPosition + i, (int) yPosition + j))
+					{
+						g.setColor(new Color(0, 50, 0, 150));
+						g.fillRect(x, y, s, s);
+					}
+					else
+					{
+						g.setColor(new Color(50, 0, 50, 150));
+						g.fillRect(x, y, s, s);
+					}
 				}
 			}
 		}
 	}
-	private int size(int numberOfTilesInX, int numberOfTilesInY)
+	private void drawPlayer(Graphics g, int s)
 	{
-		int maxTileWidth = this.getWidth()/numberOfTilesInX;
-		int maxTileHight = this.getHeight()/numberOfTilesInY;
-
-		//gap at top and bottom
-		if(maxTileWidth*numberOfTilesInY<=this.getHeight()){
-			return maxTileWidth;
+		g.drawImage(model.getPlayerImage(), (int) ((visibleWidth / 2) * s), (int) (((visibleHeight / 2) - model.getPlayerElevation()) * s), (int) (model.getPlayerWidth() * s), (int) ((model.getPlayerHeight() + model.getPlayerElevation()) * s), null);
+		if (god)
+		{
+			g.setColor(new Color(50, 0, 50, 150));
+			g.fillRect((int) ((visibleWidth / 2) * s), (int) ((visibleHeight / 2) * s), (int) (model.getPlayerWidth() * s), (int) (model.getPlayerHeight() * s));
+			g.setColor(new Color(0, 50, 0, 150));
+			g.fillRect((int) ((visibleWidth / 2) * s), (int) (((visibleHeight / 2) - model.getPlayerElevation()) * s), (int) (model.getPlayerWidth() * s), (int) (model.getPlayerElevation() * s));
 		}
-		//gap at either side
-		else if (maxTileHight*numberOfTilesInX<=this.getWidth()) {
-			return maxTileHight;
+	}
+	private int scale()
+	{
+		if (this.getWidth() / visibleWidth >= this.getHeight() / visibleHeight)
+		{
+			return this.getHeight() / visibleHeight;
 		}
-		//error
-		else {
-			return 1;
+		else
+		{
+			return this.getWidth() / visibleWidth;
 		}
 	}
 	public void pause()
@@ -103,5 +102,13 @@ public class View extends JPanel
 	public void unpause()
 	{
 		paused = false;
+	}
+	public void godModeOn()
+	{
+		god = true;
+	}
+	public void godModeOff()
+	{
+		god = false;
 	}
 }

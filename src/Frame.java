@@ -4,23 +4,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 public class Frame extends JFrame implements KeyListener
 {
-	private final int startingWidth  = 850;
-	private final int startingHeight = 600;
+	private final int startingWidth = 900;
+	private final int startingHeight = 450;
 	private static final long serialVersionUID = 1L;
 	private Model model;
-	
 	private boolean upPressed = false;
 	private boolean downPressed = false;
 	private boolean leftPressed = false;
 	private boolean rightPressed = false;
 	private boolean escapePressed = false;
 	private boolean pausePressed = false;
-	
+	private boolean godPressed = false;
 	public Frame(Model input_model, View input_view)
 	{
 		model = input_model;
-		this.setTitle("Dungeon Crawler");
-		setIconImage(new ImageIcon("logo.png").getImage());
+		this.setTitle("Inf1 Dungeon Crawler");
+		setIconImage(new ImageIcon("dungeonCrawlerFiles/images/logo.png").getImage());
 		this.setSize(startingWidth, startingHeight);
 		this.setLocationRelativeTo(null);
 		this.add(input_view);
@@ -29,7 +28,7 @@ public class Frame extends JFrame implements KeyListener
 		this.setVisible(true);
 	}
 	@Override
-	public void keyPressed(KeyEvent k) 
+	public void keyPressed(KeyEvent k)
 	{
 		switch (k.getKeyCode())
 		{
@@ -77,12 +76,19 @@ public class Frame extends JFrame implements KeyListener
 				{
 					pausePressed = true;
 					model.pPressed();
-				}	
+				}
+				break;
+			case KeyEvent.VK_G:
+				if (!godPressed)
+				{
+					godPressed = true;
+					model.gPressed();
+				}
 				break;
 		}
 	}
 	@Override
-	public void keyReleased(KeyEvent k) 
+	public void keyReleased(KeyEvent k)
 	{
 		switch (k.getKeyCode())
 		{
@@ -128,12 +134,18 @@ public class Frame extends JFrame implements KeyListener
 				if (pausePressed)
 				{
 					pausePressed = false;
-				}	
+				}
+				break;
+			case KeyEvent.VK_G:
+				if (godPressed)
+				{
+					godPressed = false;
+				}
 				break;
 		}
 	}
 	@Override
-	public void keyTyped(KeyEvent k) 
+	public void keyTyped(KeyEvent k)
 	{
 	}
 }
